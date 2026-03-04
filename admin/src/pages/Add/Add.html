@@ -1,0 +1,40 @@
+<!-- Admin Add Page -->
+<div class="add">
+    <form id="add-food-form" class="flex-col">
+        <div class="add-img-upload flex-col">
+            <p>Upload image</p>
+            <label for="food-image">
+                <img id="image-preview" src="src/assets/upload_area.png" alt="Upload">
+            </label>
+            <input type="file" id="food-image" hidden required accept="image/*">
+        </div>
+        <div class="add-product-name flex-col">
+            <p>Product name</p>
+            <input id="food-name" type="text" name="name" placeholder="Type here" required>
+        </div>
+        <div class="add-product-description flex-col">
+            <p>Product description</p>
+            <textarea id="food-desc" name="description" rows="6" placeholder="Write content here" required></textarea>
+        </div>
+        <div class="add-category-price">
+            <div class="add-category flex-col">
+                <p>Product category</p>
+                <select id="food-category" name="category" title="Product category" required>
+                    <option value="Salad">Salad</option>
+                    <option value="Rolls">Rolls</option>
+                    <option value="Deserts">Deserts</option>
+                    <option value="Sandwich">Sandwich</option>
+                    <option value="Cake">Cake</option>
+                    <option value="Pure Veg">Pure Veg</option>
+                    <option value="Pasta">Pasta</option>
+                    <option value="Noodles">Noodles</option>
+                </select>
+            </div>
+            <div class="add-price flex-col">
+                <p>Product price</p>
+                <input id="food-price" type="number" name="price" placeholder="$20" required>
+            </div>
+        </div>
+        <button type="submit" class="add-btn">ADD</button>
+    </form>
+</div>

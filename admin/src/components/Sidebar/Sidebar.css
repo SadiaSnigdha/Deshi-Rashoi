@@ -1,0 +1,114 @@
+.sidebar{
+    width: 18%;
+    min-height: 100vh;
+    background: linear-gradient(180deg, var(--bg-white) 0%, rgba(255, 107, 61, 0.02) 100%);
+    border-right: 2px solid var(--border-color);
+    padding: 30px 0;
+    font-size: max(1vw, 10px);
+    box-shadow: var(--shadow-sm);
+    position: sticky;
+    top: 60px;
+}
+.sidebar-menu {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 0 15px;
+}
+.sidebar-menu li {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 14px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: var(--transition);
+    color: var(--text-gray);
+    font-weight: 500;
+    position: relative;
+    overflow: hidden;
+    margin: 0 10px;
+}
+.sidebar-menu li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 4px;
+    background: linear-gradient(180deg, var(--primary) 0%, var(--primary-light) 100%);
+    transform: scaleY(0);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.sidebar-menu li::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255, 107, 61, 0) 0%, rgba(255, 107, 61, 0.05) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: 10px;
+    z-index: -1;
+}
+.sidebar-menu li:hover {
+    background-color: rgba(255, 107, 61, 0.08);
+    color: var(--text-dark);
+    padding-left: 24px;
+    transform: translateX(2px);
+}
+.sidebar-menu li:hover::after {
+    opacity: 1;
+}
+.sidebar-menu li:hover::before {
+    transform: scaleY(1);
+}
+.sidebar-menu li.active {
+    background: linear-gradient(135deg, rgba(255, 107, 61, 0.15) 0%, rgba(255, 107, 61, 0.08) 100%);
+    color: var(--primary);
+    font-weight: 600;
+    box-shadow: var(--shadow-sm);
+}
+.sidebar-menu li.active::before {
+    transform: scaleY(1);
+}
+.sidebar-menu li img {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+    transition: var(--transition);
+    filter: brightness(0.8);
+}
+.sidebar-menu li:hover img {
+    transform: scale(1.2) rotate(5deg);
+    filter: brightness(1);
+}
+.sidebar-menu li.active img {
+    filter: brightness(0.9) sepia(20%);
+}
+.sidebar-menu li span {
+    white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+    .sidebar {
+        width: 20%;
+    }
+    .sidebar-menu li span {
+        display: none;
+    }
+    .sidebar-menu li {
+        justify-content: center;
+        padding: 14px;
+        margin: 0 5px;
+    }
+}
+@media (max-width: 450px) {
+    .sidebar {
+        width: 25%;
+        padding: 20px 0;
+    }
+    .sidebar-menu li img {
+        width: 18px;
+    }
+}
