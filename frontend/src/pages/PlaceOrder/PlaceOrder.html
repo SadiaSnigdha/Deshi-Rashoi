@@ -1,0 +1,43 @@
+<!-- PlaceOrder Page -->
+<form class="place-order" id="place-order-form">
+    <div class="place-order-left">
+        <p class="title">Delivery Information</p>
+        <div class="multi-fields">
+            <input id="fname" name="firstName" type="text" placeholder="First name" required>
+            <input id="lname" name="lastName" type="text" placeholder="Last name" required>
+        </div>
+        <input id="email" name="email" type="email" placeholder="Email address" required>
+        <input id="street" name="street" type="text" placeholder="Street" required>
+        <div class="multi-fields">
+            <input id="city" name="city" type="text" placeholder="City" required>
+            <input id="state" name="state" type="text" placeholder="State" required>
+        </div>
+        <div class="multi-fields">
+            <input id="zipcode" name="zipCode" type="text" placeholder="Zip code" required>
+            <input id="country" name="country" type="text" placeholder="Country" required>
+        </div>
+        <input id="phone" name="phone" type="text" placeholder="Phone" required>
+    </div>
+    <div class="place-order-right">
+        <div class="cart-total">
+            <h2>Cart Totals</h2>
+            <div>
+                <div class="cart-total-details">
+                    <p>Subtotals</p>
+                    <p id="order-subtotal">$0</p>
+                </div>
+                <hr />
+                <div class="cart-total-details">
+                    <p>Delivery Fee</p>
+                    <p id="order-delivery-fee">$0</p>
+                </div>
+                <hr />
+                <div class="cart-total-details">
+                    <b>Total</b>
+                    <b id="order-grand-total">$0</b>
+                </div>
+            </div>
+            <button type="submit" id="place-order-btn">PROCEED TO PAYMENT</button>
+        </div>
+    </div>
+</form>

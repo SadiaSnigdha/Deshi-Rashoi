@@ -1,0 +1,22 @@
+<!-- LoginPopup Component -->
+<div id="login-popup" class="login-popup" style="display:none;">
+    <form id="login-form" class="login-popup-container">
+        <div class="login-popup-title">
+            <h2 id="login-title">Login</h2>
+            <img id="close-login" src="src/assets/frontend_assets/cross_icon.png" alt="Close" style="cursor:pointer;">
+        </div>
+        <div class="login-popup-inputs">
+            <input id="name-input" name="name" type="text" placeholder="Your name" style="display:none;">
+            <input id="email-input" name="email" type="email" placeholder="Your email" required>
+            <input id="password-input" name="password" type="password" placeholder="Your password" required>
+        </div>
+        <button type="submit" class="login-submit-btn">Continue</button>
+        <div class="login-popup-condition">
+            <input type="checkbox" required>
+            <p>By continuing, I agree to the terms of use & privacy policy.</p>
+        </div>
+        <div id="login-toggle" style="cursor:pointer;">
+            <p id="toggle-text">Create a new account? <span style="color:tomato;font-weight:bold;">Sign Up</span></p>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Delivery</title>
+    <link rel="stylesheet" href="src/index.css">
+    <link rel="stylesheet" href="src/components/Navbar/Navbar.css">
+    <link rel="stylesheet" href="src/components/Header/Header.css">
+    <link rel="stylesheet" href="src/components/ExploreMenu/ExploreMenu.css">
+    <link rel="stylesheet" href="src/components/FoodDisplay/FoodDisplay.css">
+    <link rel="stylesheet" href="src/components/FoodItem/FoodItem.css">
+    <link rel="stylesheet" href="src/components/Footer/Footer.css">
+    <link rel="stylesheet" href="src/components/AppDownload/AppDownload.css">
+    <link rel="stylesheet" href="src/components/LoginPopup/LoginPopup.css">
+    <link rel="stylesheet" href="src/pages/Cart/Cart.css">
+    <link rel="stylesheet" href="src/pages/PlaceOrder/PlaceOrder.css">
+    <link rel="stylesheet" href="src/pages/Verify/Verify.css">
+    <link rel="stylesheet" href="src/pages/MyOrders/MyOrders.css">
+    <link rel="stylesheet" href="js/toast.css">
+</head>
+<body>
+    <div id="root">
+        <!-- Navbar -->
+        <nav class="navbar">
+            <div class="navbar-logo-section">
+                <a href="#/" class="navbar-logo-link">
+                    <img src="src/assets/frontend_assets/logo.png" alt="Logo" class="logo">
+                </a>
+                <span class="navbar-brand-name">Deshi Rasoi</span>
+            </div>
+            <ul class="navbar-menu">
+                <li><a href="#/" class="nav-link" data-page="home">home</a></li>
+                <li><a href="#explore-menu" class="nav-link" data-page="menu">menu</a></li>
+                <li><a href="#app-download" class="nav-link" data-page="mobile-app">mobile-app</a></li>
+                <li><a href="#footer" class="nav-link" data-page="contact-us">contact us</a></li>
+            </ul>
+            <div class="navbar-right">
+                <img src="src/assets/frontend_assets/search_icon.png" alt="Search" class="search-icon">
+                <div class="navbar-search-icon">
+                    <a href="#/cart">
+                        <img src="src/assets/frontend_assets/basket_icon.png" alt="Basket">
+                    </a>
+                    <div id="cart-dot" class="dot" style="display:none;"></div>
+                </div>
+                <div id="auth-container"></div>
+            </div>
+        </nav>
+
+        <!-- Login Popup -->
+        <div id="login-popup" class="login-popup" style="display:none;">
+            <form id="login-form" class="login-popup-container">
+                <div class="login-popup-title">
+                    <h2 id="login-title">Login</h2>
+                    <img id="close-login" src="src/assets/frontend_assets/cross_icon.png" alt="Close" style="cursor:pointer;">
+                </div>
+                <div class="login-popup-inputs">
+                    <input id="name-input" name="name" type="text" placeholder="Your name" style="display:none;">
+                    <input id="email-input" name="email" type="email" placeholder="Your email" required>
+                    <input id="password-input" name="password" type="password" placeholder="Your password" required>
+                </div>
+                <button type="submit" class="login-submit-btn">Continue</button>
+                <div class="login-popup-condition">
+                    <input type="checkbox" required>
+                    <p>By continuing, I agree to the terms of use & privacy policy.</p>
+                </div>
+                <div id="login-toggle" style="cursor:pointer;">
+                    <p id="toggle-text">Create a new account? <span style="color:tomato;font-weight:bold;">Sign Up</span></p>
+                </div>
+            </form>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="app">
+            <div id="page-container"></div>
+        </div>
+
+        <!-- Footer -->
+        <footer id="footer" class="footer">
+            <div class="footer-content">
+                <div class="footer-content-left">
+                    <img src="src/assets/frontend_assets/logo.png" alt="Logo">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ut est felis. Mauris porta eros eleifend mi tincidunt semper. Duis vestibulum mollis orci non viverra. Sed vitae risus id mi eleifend vulputate.</p>
+                    <div class="footer-social-icons">
+                        <img src="src/assets/frontend_assets/facebook_icon.png" alt="Facebook">
+                        <img src="src/assets/frontend_assets/twitter_icon.png" alt="Twitter">
+                        <img src="src/assets/frontend_assets/linkedin_icon.png" alt="LinkedIn">
+                    </div>
+                </div>
+                <div class="footer-content-center">
+                    <h2>COMPANY</h2>
+                    <ul>
+                        <li><a href="#/">Home</a></li>
+                        <li><a href="#/">About Us</a></li>
+                        <li><a href="#/">Delivery</a></li>
+                        <li><a href="#/">Privacy policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-content-right">
+                    <h2>GET IN TOUCH</h2>
+                    <ul>
+                        <li>+1-212-456-7890</li>
+                        <li>contact@tomato.com</li>
+                    </ul>
+                </div>
+            </div>
+            <hr>
+            <p class="footer-copyright">Copyright 2024 © Tomato.com - All Right Reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Scripts -->
+    <script src="js/api.js"></script>
+    <script src="js/store.js"></script>
+    <script src="js/toast.js"></script>
+    <script src="js/pages.js"></script>
+    <script src="js/router.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
