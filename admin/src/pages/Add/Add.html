@@ -20,14 +20,23 @@
             <div class="add-category flex-col">
                 <p>Product category</p>
                 <select id="food-category" name="category" title="Product category" required>
-                    <option value="Salad">Salad</option>
-                    <option value="Rolls">Rolls</option>
-                    <option value="Deserts">Deserts</option>
-                    <option value="Sandwich">Sandwich</option>
-                    <option value="Cake">Cake</option>
-                    <option value="Pure Veg">Pure Veg</option>
-                    <option value="Pasta">Pasta</option>
-                    <option value="Noodles">Noodles</option>
+                    <option value="Biryani">Biryani</option>
+                    <option value="Curry">Curry</option>
+                    <option value="Drink">Drink</option>
+                    <option value="Sweet">Swee                    node -e "
+                    import mongoose from 'mongoose';
+                    import userModel from './models/userModel.js';
+                    
+                    (async () => {
+                      await mongoose.connect(process.env.MONGO_URL);
+                      await userModel.updateOne(
+                        { email: 'your-email@gmail.com' },  // আপনার যে email দিয়ে register করেছেন
+                        { role: 'admin' }
+                      );
+                      console.log('Admin role set');
+                      process.exit(0);
+                    })();
+                    "t</option>
                 </select>
             </div>
             <div class="add-price flex-col">

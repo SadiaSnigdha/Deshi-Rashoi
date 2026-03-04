@@ -74,6 +74,69 @@ const Router = {
     },
     
     attachNavbarListeners() {
+        // Navigation links click handlers
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const text = link.textContent.toLowerCase().trim();
+                
+                // Remove active class from all links
+                navLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+                
+                // Handle navigation
+                if (text === 'home') {
+                    window.selectedCategory = 'All';
+                    const container = document.getElementById('page-container');
+                    container.innerHTML = Pages.homePage();
+                    this.attachEventListeners('/');
+                    setTimeout(() => {
+                        const header = document.querySelector('.header');
+                        if (header) {
+                            header.scrollIntoView({ behavior: 'smooth' });
+                        } else {
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }
+                    }, 100);
+                } else if (text === 'menu') {
+                    window.selectedCategory = 'All';
+                    const container = document.getElementById('page-container');
+                    container.innerHTML = Pages.homePage();
+                    this.attachEventListeners('/');
+                    setTimeout(() => {
+                        const foodDisplay = document.getElementById('food-display');
+                        if (foodDisplay) {
+                            foodDisplay.scrollIntoView({ behavior: 'smooth' });
+                        }
+                    }, 100);
+                } else if (text === 'mobile-app') {
+                    // Ensure we're on home page first
+                    const container = document.getElementById('page-container');
+                    if (!container.innerHTML.includes('app-download')) {
+                        container.innerHTML = Pages.homePage();
+                        this.attachEventListeners('/');
+                    }
+                    // Scroll to app download section
+                    setTimeout(() => {
+                        const appDownload = document.getElementById('app-download');
+                        if (appDownload) {
+                            appDownload.scrollIntoView({ behavior: 'smooth' });
+                        }
+                    }, 100);
+                } else if (text === 'contact us') {
+                    setTimeout(() => {
+                        const footer = document.querySelector('footer') || document.querySelector('.footer');
+                        if (footer) {
+                            footer.scrollIntoView({ behavior: 'smooth' });
+                        } else {
+                            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+                        }
+                    }, 100);
+                }
+            });
+        });
+        
         // Menu item active state
         const menuItems = document.querySelectorAll('.nav-link');
         menuItems.forEach(item => {
@@ -87,7 +150,16 @@ const Router = {
         const viewMenuBtn = document.getElementById('view-menu-btn');
         if (viewMenuBtn) {
             viewMenuBtn.addEventListener('click', () => {
-                document.getElementById('explore-menu').scrollIntoView({ behavior: 'smooth' });
+                window.selectedCategory = 'All';
+                const container = document.getElementById('page-container');
+                container.innerHTML = Pages.homePage();
+                this.attachEventListeners('/');
+                setTimeout(() => {
+                    const foodDisplay = document.getElementById('food-display');
+                    if (foodDisplay) {
+                        foodDisplay.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }, 100);
             });
         }
         
@@ -177,12 +249,73 @@ const Router = {
     },
     
     attachHomePageListeners() {
-        // Add to cart buttons
-        const addButtons = document.querySelectorAll('.add-btn');
+        // Category card clicks
+        const categoryCards = document.querySelectorAll('.category-card');
+        categoryCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const category = card.dataset.category;
+                window.selectedCategory = category;
+                const container = document.getElementById('page-container');
+                container.innerHTML = Pages.homePage();
+                this.attachHomePageListeners();
+                document.getElementById('food-display').scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+        
+        // View Menu button
+        const viewMenuBtn = document.getElementById('view-menu-btn');
+        if (viewMenuBtn) {
+            viewMenuBtn.addEventListener('click', () => {
+                window.selectedCategory = 'All';
+                const container = document.getElementById('page-container');
+                container.innerHTML = Pages.homePage();
+                this.attachHomePageListeners();
+                document.getElementById('food-display').scrollIntoView({ behavior: 'smooth' });
+            });
+        }
+        
+        // Add to cart buttons (Order Now)
+        const addButtons = document.querySelectorAll('.add');
         addButtons.forEach(btn => {
-            btn.addEventListener('click', () => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
                 const itemId = btn.dataset.id;
                 Store.addToCart(itemId);
+                showToast('Added to cart', 'success');
+            });
+        });
+        
+        // Add counter buttons
+        const addCounters = document.querySelectorAll('.add-counter');
+        addCounters.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                const itemId = btn.dataset.id;
+                Store.addToCart(itemId);
+                
+                // Update counter value directly without re-render
+                const counterValue = btn.parentElement.querySelector('.counter-value');
+                if (counterValue) {
+                    counterValue.textContent = Store.state.cartItems[itemId];
+                }
+            });
+        });
+        
+        // Remove counter buttons
+        const removeCounters = document.querySelectorAll('.remove-counter');
+        removeCounters.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                const itemId = btn.dataset.id;
+                Store.removeFromCart(itemId);
+                
+                // Update counter value directly without re-render
+                const counterValue = btn.parentElement.querySelector('.counter-value');
+                if (counterValue) {
+                    counterValue.textContent = Store.state.cartItems[itemId];
+                }
             });
         });
     },
@@ -215,17 +348,33 @@ const Router = {
             form.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 
+                // Build items array with full details
+                const items = [];
+                for (const itemId in Store.state.cartItems) {
+                    if (Store.state.cartItems[itemId] > 0) {
+                        const item = Store.state.food_list.find(food => food.id === itemId);
+                        if (item) {
+                            items.push({
+                                id: item.id,
+                                name: item.name,
+                                price: item.price,
+                                quantity: Store.state.cartItems[itemId],
+                            });
+                        }
+                    }
+                }
+                
+                // Wrap address fields in address object
                 const formData = {
-                    firstName: document.getElementById('fname').value,
-                    lastName: document.getElementById('lname').value,
-                    email: document.getElementById('email').value,
-                    street: document.getElementById('street').value,
-                    city: document.getElementById('city').value,
-                    state: document.getElementById('state').value,
-                    zipCode: document.getElementById('zipcode').value,
-                    country: document.getElementById('country').value,
-                    phone: document.getElementById('phone').value,
-                    items: Store.state.cartItems,
+                    address: {
+                        firstName: document.getElementById('fname').value,
+                        lastName: document.getElementById('lname').value,
+                        email: document.getElementById('email').value,
+                        street: document.getElementById('street').value,
+                        city: document.getElementById('city').value,
+                        phone: document.getElementById('phone').value,
+                    },
+                    items: items,
                     amount: Store.getTotalCartAmount() + 2,
                 };
                 
@@ -271,7 +420,7 @@ const Router = {
                         <div>
                             <p class="order-item">${order.items.map(item => `${item.name}x${item.quantity}`).join(', ')}</p>
                             <p class="order-item">Items: ${order.items.length}</p>
-                            <p class="order-item">Address: ${order.address.street}, ${order.address.city}, ${order.address.state}</p>
+                            <p class="order-item">Address: ${order.address.street}, ${order.address.city}</p>
                         </div>
                         <p>${order.status}</p>
                         <button class="track-order">Track Order</button>

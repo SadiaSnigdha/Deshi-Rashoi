@@ -40,14 +40,10 @@ const AdminPages = {
                         <div class="add-category flex-col">
                             <p>Product category</p>
                             <select id="food-category" name="category" required>
-                                <option value="Salad">Salad</option>
-                                <option value="Rolls">Rolls</option>
-                                <option value="Deserts">Deserts</option>
-                                <option value="Sandwich">Sandwich</option>
-                                <option value="Cake">Cake</option>
-                                <option value="Pure Veg">Pure Veg</option>
-                                <option value="Pasta">Pasta</option>
-                                <option value="Noodles">Noodles</option>
+                                <option value="Biryani">Biryani</option>
+                                <option value="Curry">Curry</option>
+                                <option value="Drink">Drink</option>
+                                <option value="Sweet">Sweet</option>
                             </select>
                         </div>
                         <div class="add-price flex-col">

@@ -2,7 +2,7 @@
 const Store = {
     state: {
         food_list: [],
-        cartItems: {},
+        cartItems: JSON.parse(localStorage.getItem('cartItems')) || {},
         token: localStorage.getItem('token') || '',
         user: null,
     },
@@ -48,6 +48,9 @@ const Store = {
             this.state.cartItems[itemId]++;
         }
         
+        // Save to localStorage
+        localStorage.setItem('cartItems', JSON.stringify(this.state.cartItems));
+        
         if (this.state.token) {
             const response = await API.addToCart(itemId);
             if (response.success) {
@@ -65,6 +68,9 @@ const Store = {
             this.state.cartItems[itemId]--;
         }
         
+        // Save to localStorage
+        localStorage.setItem('cartItems', JSON.stringify(this.state.cartItems));
+        
         if (this.state.token) {
             const response = await API.removeFromCart(itemId);
             if (response.success) {
@@ -80,7 +86,10 @@ const Store = {
     async loadCartData() {
         const response = await API.getCart();
         if (response.success) {
-            this.state.cartItems = response.cartData || {};
+            const serverCart = response.cartData || {};
+            // Merge local cart with server cart (local items take priority)
+            this.state.cartItems = { ...serverCart, ...this.state.cartItems };
+            localStorage.setItem('cartItems', JSON.stringify(this.state.cartItems));
             this.notify();
         }
     },
@@ -90,7 +99,7 @@ const Store = {
         let totalAmount = 0;
         for (const itemId in this.state.cartItems) {
             if (this.state.cartItems[itemId] > 0) {
-                const itemInfo = this.state.food_list.find(product => product._id === itemId);
+                const itemInfo = this.state.food_list.find(product => product.id === itemId);
                 if (itemInfo) {
                     totalAmount += itemInfo.price * this.state.cartItems[itemId];
                 }
@@ -139,6 +148,7 @@ const Store = {
     // Logout
     logout() {
         localStorage.removeItem('token');
+        localStorage.removeItem('cartItems');
         this.state.token = '';
         this.state.cartItems = {};
         this.notify();

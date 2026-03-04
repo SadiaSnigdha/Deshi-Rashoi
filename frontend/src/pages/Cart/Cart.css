@@ -1,5 +1,9 @@
 .cart{
     margin-top: 100px;
+    padding: 0px 20px;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
 }
 .cart-items-title{
     display: grid;
@@ -7,10 +11,12 @@
     align-items: center;
     color: gray;
     font-size: max(1vw,12px);
+    padding: 0px 10px;
 }
 .cart-items-item{
     margin: 10px 0px;
     color: black;
+    padding: 0px 10px;
 }
 .cart-items-item img{
     width: 50px;
@@ -23,11 +29,17 @@
 .cart-items-item .cross{
     cursor: pointer;
 }
+.cart-items > p {
+    padding: 0px 10px;
+    font-size: 16px;
+    color: #666;
+}
 .cart-bottom{
     margin-top: 80px;
     display: flex;
     justify-content: space-between;
     gap: max(12vw,20px);
+    padding: 0px 10px;
 }
 .cart-total{
     flex: 1;

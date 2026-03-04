@@ -2,9 +2,9 @@
 const Pages = {
     homePage() {
         return `
-            <div>
+            <div id="home-page">
                 ${this.headerComponent()}
-                ${this.exploreMenuComponent()}
+                ${this.foodCategoriesComponent()}
                 ${this.foodDisplayComponent()}
                 ${this.appDownloadComponent()}
             </div>
@@ -15,9 +15,39 @@ const Pages = {
         return `
             <div class="header">
                 <div class="header-contents">
+                    <h1 class="restaurant-name">Deshi Rasoi</h1>
                     <h2>Order your favourite food here</h2>
-                    <p>Choose from a diverse menu featuring a detectable array of dishes crafted with the finest ingredients and culinary expertise. Our mission is to satisfy your cravings and elevate your dining experience, one delicious meal at a time.</p>
+                    <p>Welcome to Deshi Rasoi! Discover authentic, delicious dishes prepared with the finest ingredients and traditional culinary expertise. From aromatic biryanis to creamy curries, refreshing drinks to delightful sweets - we bring you the best of culinary excellence. One meal at a time, we satisfy your cravings and elevate your dining experience.</p>
                     <button id="view-menu-btn">View Menu</button>
+                </div>
+            </div>
+        `;
+    },
+    
+    foodCategoriesComponent() {
+        const categories = [
+            { name: 'Biryani', image: 'src/assets/frontend_assets/menu_1.png', description: 'Aromatic rice dishes' },
+            { name: 'Curry', image: 'src/assets/frontend_assets/menu_2.png', description: 'Rich and flavorful curries' },
+            { name: 'Drink', image: 'src/assets/frontend_assets/menu_7.png', description: 'Refreshing beverages' },
+            { name: 'Sweet', image: 'src/assets/frontend_assets/menu_5.png', description: 'Delightful desserts' }
+        ];
+        
+        return `
+            <div class="food-categories-section">
+                <h2>Our Main Categories</h2>
+                <div class="food-categories-grid">
+                    ${categories.map(cat => `
+                        <div class="category-card" data-category="${cat.name}">
+                            <div class="category-card-image">
+                                <img src="${cat.image}" alt="${cat.name}">
+                            </div>
+                            <div class="category-card-content">
+                                <h3>${cat.name}</h3>
+                                <p>${cat.description}</p>
+                                <button class="explore-btn">Explore</button>
+                            </div>
+                        </div>
+                    `).join('')}
                 </div>
             </div>
         `;
@@ -58,24 +88,38 @@ const Pages = {
         
         return `
             <div class="food-display" id="food-display">
-                <h2>Top dishes near you</h2>
+                <h2>${selectedCategory === 'All' ? 'All Available Dishes' : selectedCategory + ' Dishes'}</h2>
                 <div class="food-display-list">
-                    ${foodItems.filter(item => selectedCategory === 'All' || selectedCategory === item.category).map(item => `
-                        <div class="food-item">
-                            <div class="food-item-img-container">
-                                <img class="food-item-img" src="${API.baseURL}/images/${item.image}" alt="${item.name}">
-                                <img class="add-btn" src="src/assets/frontend_assets/add_icon_white.png" alt="Add" data-id="${item._id}">
-                            </div>
-                            <div class="food-item-info">
-                                <div class="food-item-name-rating">
-                                    <p>${item.name}</p>
-                                    <img src="src/assets/frontend_assets/rating_starts.png" alt="Rating">
+                    ${foodItems.filter(item => selectedCategory === 'All' || selectedCategory === item.category).map(item => {
+                        const itemCount = Store.state.cartItems[item.id] || 0;
+                        return `
+                            <div class="food-item">
+                                <div class="food-item-img-container">
+                                    <img class="food-item-image" src="${API.baseURL}/images/${item.image}" alt="${item.name}">
+                                    ${itemCount === 0 ? 
+                                        `<button class="order-now-btn add" data-id="${item.id}" title="Add to Cart">Order Now</button>` :
+                                        `<div class="food-item-counter">
+                                            <button class="remove-counter counter-btn" data-id="${item.id}">−</button>
+                                            <p class="counter-value">${itemCount}</p>
+                                            <button class="add-counter counter-btn" data-id="${item.id}">+</button>
+                                        </div>`
+                                    }
                                 </div>
-                                <p class="food-item-desc">${item.description}</p>
-                                <p class="food-item-price">$${item.price}</p>
+                                <div class="food-item-info">
+                                    <div class="food-item-header">
+                                        <h3>${item.name}</h3>
+                                        <div class="food-rating">
+                                            <img src="src/assets/frontend_assets/rating_starts.png" alt="Rating">
+                                        </div>
+                                    </div>
+                                    <p class="food-item-desc">${item.description}</p>
+                                    <div class="food-item-footer">
+                                        <p class="food-item-price">$${item.price}</p>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    `).join('')}
+                        `;
+                    }).join('')}
                 </div>
             </div>
         `;
@@ -103,7 +147,7 @@ const Pages = {
         let cartContent = '';
         for (const itemId in cartItems) {
             if (cartItems[itemId] > 0) {
-                const item = foodList.find(food => food._id === itemId);
+                const item = foodList.find(food => food.id === itemId);
                 if (item) {
                     cartContent += `
                         <div>
@@ -187,14 +231,7 @@ const Pages = {
                     </div>
                     <input id="email" name="email" type="email" placeholder="Email address" required>
                     <input id="street" name="street" type="text" placeholder="Street" required>
-                    <div class="multi-fields">
-                        <input id="city" name="city" type="text" placeholder="City" required>
-                        <input id="state" name="state" type="text" placeholder="State" required>
-                    </div>
-                    <div class="multi-fields">
-                        <input id="zipcode" name="zipCode" type="text" placeholder="Zip code" required>
-                        <input id="country" name="country" type="text" placeholder="Country" required>
-                    </div>
+                    <input id="city" name="city" type="text" placeholder="City" required>
                     <input id="phone" name="phone" type="text" placeholder="Phone" required>
                 </div>
                 <div class="place-order-right">
@@ -233,9 +270,9 @@ const Pages = {
     
     myOrdersPage() {
         return `
-            <div class="myorders">
+            <div class="my-orders">
                 <p id="orders-title">My Orders</p>
-                <div id="orders-container" class="orders-container"></div>
+                <div id="orders-container" class="container"></div>
             </div>
         `;
     },

@@ -1,6 +1,6 @@
 // API Module - handles all API calls
 const API = {
-    baseURL: 'https://food-delivery-backend-5b6g.onrender.com',
+    baseURL: 'http://localhost:4000',
     
     // Helper function for fetch requests
     async request(endpoint, options = {}) {
