@@ -27,7 +27,7 @@ const User = sequelize.define(
       defaultValue: 'user',
     },
     cartData: {
-      type: DataTypes.JSONB,
+      type: DataTypes.JSON,
       defaultValue: {},
     },
   },

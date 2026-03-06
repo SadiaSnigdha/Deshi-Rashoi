@@ -1,3 +1,32 @@
+
+function showToast(message, type) {
+    // Create toast container if it doesn't exist
+    let container = document.getElementById('toast-container');
+    if (!container) {
+        container = document.createElement('div');
+        container.id = 'toast-container';
+        container.className = 'toast-container';
+        document.body.appendChild(container);
+    }
+    
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+    toast.textContent = message;
+    container.appendChild(toast);
+    
+    // Force reflow to trigger animation
+    void toast.offsetWidth;
+    
+    setTimeout(() => {
+        toast.classList.add('show');
+    }, 10);
+    
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 300);
+    }, 3500);
+}
+
 // Router - handles page navigation
 const Router = {
     currentPage: '',
@@ -9,7 +38,7 @@ const Router = {
     
     navigate() {
         const hash = window.location.hash.slice(1) || '/';
-        const [path, ...query] = hash.split('?');
+        const [path] = hash.split('?');
         
         this.currentPage = path || '/';
         this.renderPage(path);
@@ -381,10 +410,15 @@ const Router = {
                 const response = await Store.placeOrder(formData);
                 if (response.success) {
                     window.sessionStorage.setItem('orderId', response.orderId);
-                    // Redirect to Stripe payment
-                    window.location.href = response.session_url;
+                    showToast('✓ Order placed successfully!', 'success');
+                    console.log('Order successfully placed:', response.orderId);
+                    // Wait 3.5 seconds then redirect to payment to show the message
+                    setTimeout(() => {
+                        window.location.href = response.session_url;
+                    }, 3500);
                 } else {
-                    showToast('Error placing order', 'error');
+                    console.log("Order Error:", response);
+                    showToast(response.message || 'Error placing order', 'error');
                 }
             });
         }
@@ -434,3 +468,6 @@ const Router = {
         loadOrders();
     },
 };
+
+// Initialize the router
+Router.init();

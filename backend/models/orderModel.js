@@ -19,7 +19,7 @@ const Order = sequelize.define(
       },
     },
     items: {
-      type: DataTypes.JSONB,
+      type: DataTypes.JSON,
       allowNull: false,
     },
     amount: {
@@ -27,7 +27,7 @@ const Order = sequelize.define(
       allowNull: false,
     },
     address: {
-      type: DataTypes.JSONB,
+      type: DataTypes.JSON,
       allowNull: false,
     },
     status: {
