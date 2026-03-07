@@ -6,10 +6,15 @@ import userRouter from "./routes/userRoute.js";
 import "dotenv/config";
 import cartRouter from "./routes/cartRoute.js";
 import orderRouter from "./routes/orderRoute.js";
+import path from "path";
+import { fileURLToPath } from "url";
 
 // app config
 const app = express();
-const port =process.env.PORT || 4000;
+const port = process.env.PORT || 3000;
+
+// Directory paths for ES modules
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 //middlewares
 app.use(express.json());
@@ -25,8 +30,21 @@ app.use("/api/user", userRouter);
 app.use("/api/cart", cartRouter);
 app.use("/api/order", orderRouter);
 
-app.get("/", (req, res) => {
-  res.send("API Working");
+// Serve static files from frontend build
+app.use(express.static(path.join(__dirname, "../frontend/dist")));
+
+// Serve admin from /admin
+app.use("/admin", express.static(path.join(__dirname, "../admin/dist")));
+
+// SPA fallback - serve index.html for unknown routes
+app.get("*", (req, res) => {
+  if (req.path.startsWith("/admin")) {
+    res.sendFile(path.join(__dirname, "../admin/dist/index.html"));
+  } else if (req.path.startsWith("/api")) {
+    res.status(404).json({ message: "API endpoint not found" });
+  } else {
+    res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
+  }
 });
 
 app.listen(port, () => {

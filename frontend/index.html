@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="src/components/Footer/Footer.css">
     <link rel="stylesheet" href="src/components/AppDownload/AppDownload.css">
     <link rel="stylesheet" href="src/components/LoginPopup/LoginPopup.css">
+    <link rel="stylesheet" href="src/components/SearchPopup/search.css">
     <link rel="stylesheet" href="src/pages/Cart/Cart.css">
     <link rel="stylesheet" href="src/pages/PlaceOrder/PlaceOrder.css">
     <link rel="stylesheet" href="src/pages/Verify/Verify.css">
@@ -37,7 +38,10 @@
                 <li><a href="#footer" class="nav-link" data-page="contact-us">contact us</a></li>
             </ul>
             <div class="navbar-right">
-                <img src="src/assets/frontend_assets/search_icon.png" alt="Search" class="search-icon">
+                <div class="navbar-search-bar">
+                    <input id="navbar-search-input" type="text" placeholder="Search food...">
+                    <img src="src/assets/frontend_assets/search_icon.png" alt="Search" class="search-bar-icon">
+                </div>
                 <div class="navbar-search-icon">
                     <a href="#/cart">
                         <img src="src/assets/frontend_assets/basket_icon.png" alt="Basket">

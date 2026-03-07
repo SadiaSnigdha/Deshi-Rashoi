@@ -1,6 +1,6 @@
 // API Module - handles all API calls
 const API = {
-    baseURL: 'http://localhost:4000',
+    baseURL: typeof __API_URL__ !== 'undefined' ? __API_URL__ : 'http://localhost:3000',
     
     // Helper function for fetch requests
     async request(endpoint, options = {}) {

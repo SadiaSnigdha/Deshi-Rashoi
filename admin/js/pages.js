@@ -110,10 +110,10 @@ const AdminPages = {
                             </div>
                             <p>Items: ${order.items.length}</p>
                             <p>$${order.amount}</p>
-                            <select class="order-status" data-id="${order._id}" value="${order.status}">
-                                <option value="Food Processing">Food Processing</option>
-                                <option value="Out for delivery">Out for delivery</option>
-                                <option value="Delivered">Delivered</option>
+                            <select class="order-status" data-id="${order.id}">
+                                <option value="Food Processing" ${order.status === 'Food Processing' ? 'selected' : ''}>Food Processing</option>
+                                <option value="Out for delivery" ${order.status === 'Out for delivery' ? 'selected' : ''}>Out for delivery</option>
+                                <option value="Delivered" ${order.status === 'Delivered' ? 'selected' : ''}>Delivered</option>
                             </select>
                         </div>
                     `).join('')}

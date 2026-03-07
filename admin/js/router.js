@@ -33,8 +33,10 @@ const AdminRouter = {
                     this.attachAddPageListeners();
                     break;
                 case 'list':
-                    container.innerHTML = AdminPages.listPage();
-                    this.attachListPageListeners();
+                    AdminStore.fetchFoodList().then(() => {
+                        container.innerHTML = AdminPages.listPage();
+                        this.attachListPageListeners();
+                    });
                     break;
                 case 'orders':
                     AdminStore.fetchOrders().then(() => {
@@ -56,18 +58,35 @@ const AdminRouter = {
     
     attachLoginListeners() {
         const form = document.getElementById('admin-login-form');
+        if (!form) {
+            console.error('❌ Login form not found!');
+            return;
+        }
+        
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
+            console.log('📝 Login form submitted');
             
             const email = document.getElementById('admin-email').value;
             const password = document.getElementById('admin-password').value;
             
+            console.log('📧 Email:', email);
+            console.log('🔐 Password length:', password.length);
+            
+            if (!email || !password) {
+                showToast('Please fill in all fields', 'error');
+                return;
+            }
+            
+            console.log('🚀 Calling AdminStore.login...');
             const result = await AdminStore.login(email, password);
+            console.log('✅ Login result:', result);
+            
             if (result.success) {
                 showToast('Login Successfully', 'success');
                 this.renderPage('add');
             } else {
-                showToast(result.message, 'error');
+                showToast(result.message || 'Login failed', 'error');
             }
         });
     },
@@ -136,6 +155,10 @@ const AdminRouter = {
                 const response = await AdminStore.updateOrderStatus(orderId, status);
                 if (response.success) {
                     showToast(response.message, 'success');
+                    // Refresh the orders page to show updated status
+                    setTimeout(() => {
+                        this.renderPage('orders');
+                    }, 500);
                 } else {
                     showToast('Error', 'error');
                 }

@@ -123,7 +123,7 @@ const userOrders = async (req, res) => {
       return res.json({ success: false, message: "User ID is required" });
     }
     const orders = await Order.findAll({ where: { userId: req.body.userId } });
-    res.json({ success: true, data: orders });
+    res.json({ success: true, data: orders.map(order => order.get({ plain: true })) });
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: "Error" });
@@ -144,7 +144,7 @@ const listOrders = async (req, res) => {
       return res.json({ success: false, message: "You are not admin" });
     }
     const orders = await Order.findAll();
-    res.json({ success: true, data: orders });
+    res.json({ success: true, data: orders.map(order => order.get({ plain: true })) });
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: "Error" });

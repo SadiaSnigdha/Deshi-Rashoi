@@ -29,7 +29,7 @@ const addFood = async (req, res) => {
 const listFood = async (req, res) => {
   try {
     const foods = await Food.findAll();
-    res.json({ success: true, data: foods });
+    res.json({ success: true, data: foods.map(food => food.get({ plain: true })) });
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: "Error" });

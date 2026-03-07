@@ -85,41 +85,62 @@ const Pages = {
     foodDisplayComponent() {
         const foodItems = Store.state.food_list;
         const selectedCategory = window.selectedCategory || 'All';
+        const searchQuery = window.searchQuery || '';
+        
+        // Filter by category and search query
+        let filteredItems = foodItems.filter(item => {
+            const matchCategory = selectedCategory === 'All' || selectedCategory === item.category;
+            const matchSearch = !searchQuery || 
+                item.name.toLowerCase().includes(searchQuery) ||
+                item.description.toLowerCase().includes(searchQuery) ||
+                item.category.toLowerCase().includes(searchQuery);
+            return matchCategory && matchSearch;
+        });
+        
+        const title = searchQuery ? 
+            `Search Results for "${searchQuery}" ${filteredItems.length > 0 ? `(${filteredItems.length} items found)` : ''}` :
+            (selectedCategory === 'All' ? 'All Available Dishes' : selectedCategory + ' Dishes');
         
         return `
             <div class="food-display" id="food-display">
-                <h2>${selectedCategory === 'All' ? 'All Available Dishes' : selectedCategory + ' Dishes'}</h2>
+                <h2>${title}</h2>
                 <div class="food-display-list">
-                    ${foodItems.filter(item => selectedCategory === 'All' || selectedCategory === item.category).map(item => {
-                        const itemCount = Store.state.cartItems[item.id] || 0;
-                        return `
-                            <div class="food-item">
-                                <div class="food-item-img-container">
-                                    <img class="food-item-image" src="${API.baseURL}/images/${item.image}" alt="${item.name}">
-                                    ${itemCount === 0 ? 
-                                        `<button class="order-now-btn add" data-id="${item.id}" title="Add to Cart">Order Now</button>` :
-                                        `<div class="food-item-counter">
-                                            <button class="remove-counter counter-btn" data-id="${item.id}">−</button>
-                                            <p class="counter-value">${itemCount}</p>
-                                            <button class="add-counter counter-btn" data-id="${item.id}">+</button>
-                                        </div>`
-                                    }
-                                </div>
-                                <div class="food-item-info">
-                                    <div class="food-item-header">
-                                        <h3>${item.name}</h3>
-                                        <div class="food-rating">
-                                            <img src="src/assets/frontend_assets/rating_starts.png" alt="Rating">
+                    ${filteredItems.length === 0 ? 
+                        `<div style="padding: 40px; text-align: center; width: 100%;">
+                            <p style="font-size: 18px; color: #999;">🔍 No items found matching "${searchQuery}"</p>
+                            <p style="color: #ccc; margin-top: 10px;">Try searching with different keywords</p>
+                        </div>` :
+                        filteredItems.map(item => {
+                            const itemCount = Store.state.cartItems[item.id] || 0;
+                            return `
+                                <div class="food-item">
+                                    <div class="food-item-img-container">
+                                        <img class="food-item-image" src="${API.baseURL}/images/${item.image}" alt="${item.name}">
+                                        ${itemCount === 0 ? 
+                                            `<button class="order-now-btn add" data-id="${item.id}" title="Add to Cart">Order Now</button>` :
+                                            `<div class="food-item-counter">
+                                                <button class="remove-counter counter-btn" data-id="${item.id}">−</button>
+                                                <p class="counter-value">${itemCount}</p>
+                                                <button class="add-counter counter-btn" data-id="${item.id}">+</button>
+                                            </div>`
+                                        }
+                                    </div>
+                                    <div class="food-item-info">
+                                        <div class="food-item-header">
+                                            <h3>${item.name}</h3>
+                                            <div class="food-rating">
+                                                <img src="src/assets/frontend_assets/rating_starts.png" alt="Rating">
+                                            </div>
+                                        </div>
+                                        <p class="food-item-desc">${item.description}</p>
+                                        <div class="food-item-footer">
+                                            <p class="food-item-price">$${item.price}</p>
                                         </div>
                                     </div>
-                                    <p class="food-item-desc">${item.description}</p>
-                                    <div class="food-item-footer">
-                                        <p class="food-item-price">$${item.price}</p>
-                                    </div>
                                 </div>
-                            </div>
-                        `;
-                    }).join('')}
+                            `;
+                        }).join('')
+                    }
                 </div>
             </div>
         `;

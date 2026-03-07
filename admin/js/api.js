@@ -1,6 +1,6 @@
 // Admin API Module
 const AdminAPI = {
-    baseURL: 'http://localhost:4000',
+    baseURL: typeof __API_URL__ !== 'undefined' ? __API_URL__ : 'http://localhost:3000',
     
     async request(endpoint, options = {}) {
         const token = localStorage.getItem('token');
@@ -13,21 +13,28 @@ const AdminAPI = {
             headers['token'] = token;
         }
         
+        const url = `${this.baseURL}${endpoint}`;
+        console.log('🔗 Fetch URL:', url);
+        console.log('📤 Request options:', { method: options.method, headers });
+        
         try {
-            const response = await fetch(`${this.baseURL}${endpoint}`, {
+            const response = await fetch(url, {
                 ...options,
                 headers,
             });
             
+            console.log('📥 Response status:', response.status);
             const data = await response.json();
+            console.log('📦 Response data:', data);
             return data;
         } catch (error) {
-            console.error('API Error:', error);
-            return { success: false, message: 'Network error' };
+            console.error('❌ API Error:', error);
+            return { success: false, message: 'Network error: ' + error.message };
         }
     },
     
     async login(email, password) {
+        console.log('🌐 AdminAPI.login called, baseURL:', this.baseURL);
         return this.request('/api/user/login', {
             method: 'POST',
             body: JSON.stringify({ email, password }),
