@@ -259,6 +259,7 @@ Deshi-Rashoi/
 ## 👥 Contributors
 
 - **Sadia Snigdha** - Project Owner
+- **Mrinmoy Poit** - Project Leader
 - [GitHub Repository](https://github.com/SadiaSnigdha/Deshi-Rashoi)
 
 ---
