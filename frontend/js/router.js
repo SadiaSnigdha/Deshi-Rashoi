@@ -32,7 +32,11 @@ const Router = {
     currentPage: '',
     
     init() {
+        // Reset to home page on page load
+        window.location.hash = '/';
         window.addEventListener('hashchange', () => this.navigate());
+        // Attach search listeners once on initialization
+        this.attachSearchListeners();
         this.navigate();
     },
     
@@ -47,6 +51,12 @@ const Router = {
     renderPage(page) {
         const container = document.getElementById('page-container');
         let content = '';
+        
+        // Clear any existing refresh intervals before rendering new page
+        if (window.myOrdersRefreshInterval) {
+            clearInterval(window.myOrdersRefreshInterval);
+            window.myOrdersRefreshInterval = null;
+        }
         
         switch (page) {
             case '/':
@@ -232,6 +242,73 @@ const Router = {
         Store.subscribe(() => this.updateAuthUI());
     },
     
+    attachSearchListeners() {
+        // Use event delegation on document to listen for search input events
+        document.addEventListener('input', (e) => {
+            if (e.target.id !== 'navbar-search-input') return;
+            
+            const query = e.target.value.toLowerCase().trim();
+            
+            // Update search query globally
+            if (query) {
+                window.searchQuery = query;
+                window.selectedCategory = 'All'; // Reset category filter when searching
+                // Re-render the page with search results
+                this.renderPage('/');
+                // Scroll to food display to show results
+                setTimeout(() => {
+                    const foodDisplay = document.getElementById('food-display');
+                    if (foodDisplay) {
+                        foodDisplay.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }, 100);
+            } else {
+                // Clear search
+                delete window.searchQuery;
+                window.selectedCategory = 'All';
+                this.renderPage('/');
+            }
+        });
+        
+        // On enter key, show results
+        document.addEventListener('keypress', (e) => {
+            if (e.target.id !== 'navbar-search-input') return;
+            
+            if (e.key === 'Enter') {
+                const query = e.target.value.toLowerCase().trim();
+                const filtered = Store.state.food_list.filter(food =>
+                    food.name.toLowerCase().includes(query) ||
+                    food.description.toLowerCase().includes(query) ||
+                    food.category.toLowerCase().includes(query)
+                );
+                
+                if (filtered.length > 0 || query) {
+                    // Go to home page with search query
+                    window.searchQuery = query;
+                    window.selectedCategory = 'All';
+                    this.renderPage('/');
+                    // Scroll to food display to show results
+                    setTimeout(() => {
+                        const foodDisplay = document.getElementById('food-display');
+                        if (foodDisplay) {
+                            foodDisplay.scrollIntoView({ behavior: 'smooth' });
+                        }
+                    }, 100);
+                }
+            }
+        });
+        
+        // Clear search when user clicks the search input clear button
+        document.addEventListener('blur', (e) => {
+            if (e.target.id !== 'navbar-search-input') return;
+            
+            if (!e.target.value.trim()) {
+                delete window.searchQuery;
+                window.selectedCategory = 'All';
+            }
+        }, true);
+    },
+    
     updateAuthUI() {
         const authContainer = document.getElementById('auth-container');
         const cartDot = document.getElementById('cart-dot');
@@ -310,7 +387,7 @@ const Router = {
                 e.preventDefault();
                 const itemId = btn.dataset.id;
                 Store.addToCart(itemId);
-                showToast('Added to cart', 'success');
+               // showToast('', 'success');
             });
         });
         
@@ -465,7 +542,14 @@ const Router = {
             }
         };
         
+        // Load orders immediately
         loadOrders();
+        
+        // Set up auto-refresh every 2 seconds to get latest order status
+        const refreshInterval = setInterval(loadOrders, 2000);
+        
+        // Store the interval ID globally so we can clear it when navigating away
+        window.myOrdersRefreshInterval = refreshInterval;
     },
 };
 

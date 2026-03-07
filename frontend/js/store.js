@@ -2,7 +2,7 @@
 const Store = {
     state: {
         food_list: [],
-        cartItems: JSON.parse(localStorage.getItem('cartItems')) || {},
+        cartItems: {},  // Start with empty cart on page load
         token: localStorage.getItem('token') || '',
         user: null,
     },
