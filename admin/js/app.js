@@ -1,4 +1,3 @@
-// Admin App - initialize
 document.addEventListener('DOMContentLoaded', async () => {
     await AdminStore.init();
     

@@ -11,6 +11,7 @@ function showToast(message, type = 'info') {
     
     container.appendChild(toast);
     
+    // time = 10ms to trigger CSS animation
     setTimeout(() => {
         toast.classList.add('show');
     }, 10);

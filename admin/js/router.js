@@ -1,4 +1,3 @@
-// Admin Router
 const AdminRouter = {
     currentPage: 'login',
     
