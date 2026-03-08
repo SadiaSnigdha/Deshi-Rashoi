@@ -9,7 +9,7 @@ import orderRouter from "./routes/orderRoute.js";
 import path from "path";
 import { fileURLToPath } from "url";
 
-// app config
+// app configuration
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -36,7 +36,6 @@ app.use(express.static(path.join(__dirname, "../frontend/dist")));
 // Serve admin from /admin
 app.use("/admin", express.static(path.join(__dirname, "../admin/dist")));
 
-// SPA fallback - serve index.html for unknown routes
 app.get("*", (req, res) => {
   if (req.path.startsWith("/admin")) {
     res.sendFile(path.join(__dirname, "../admin/dist/index.html"));
