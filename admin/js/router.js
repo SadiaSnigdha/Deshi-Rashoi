@@ -59,28 +59,28 @@ const AdminRouter = {
     attachLoginListeners() {
         const form = document.getElementById('admin-login-form');
         if (!form) {
-            console.error('❌ Login form not found!');
+            console.error('Login form not found!');
             return;
         }
         
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            console.log('📝 Login form submitted');
+            console.log('Login form submitted');
             
             const email = document.getElementById('admin-email').value;
             const password = document.getElementById('admin-password').value;
             
-            console.log('📧 Email:', email);
-            console.log('🔐 Password length:', password.length);
+            console.log('Email:', email);
+            console.log('Password length:', password.length);
             
             if (!email || !password) {
                 showToast('Please fill in all fields', 'error');
                 return;
             }
             
-            console.log('🚀 Calling AdminStore.login...');
+            console.log('Calling AdminStore.login...');
             const result = await AdminStore.login(email, password);
-            console.log('✅ Login result:', result);
+            console.log('Login result:', result);
             
             if (result.success) {
                 showToast('Login Successfully', 'success');

@@ -13,7 +13,6 @@ const placeOrder = async (req, res) => {
   try {
     console.log("Place Order Request Body:", req.body);
     
-    // Validate required fields
     if (!req.body.userId) {
       console.log("Missing userId");
       return res.json({ success: false, message: "User authentication required" });
@@ -48,7 +47,7 @@ const placeOrder = async (req, res) => {
 
     const line_items = req.body.items.map((item) => ({
       price_data: {
-        currency: "usd",
+        currency: "bdt",
         product_data: {
           name: item.name,
         },
@@ -59,7 +58,7 @@ const placeOrder = async (req, res) => {
 
     line_items.push({
       price_data: {
-        currency: "usd",
+        currency: "bdt",
         product_data: {
           name: "Delivery Charges",
         },

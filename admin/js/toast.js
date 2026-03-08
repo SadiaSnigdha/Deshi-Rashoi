@@ -19,6 +19,6 @@ function showToast(message, type = 'info') {
         toast.classList.remove('show');
         setTimeout(() => {
             container.removeChild(toast);
-        }, 300);
-    }, 3000);
+        }, 200);
+    }, 2000);
 }

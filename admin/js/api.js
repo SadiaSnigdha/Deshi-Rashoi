@@ -14,8 +14,8 @@ const AdminAPI = {
         }
         
         const url = `${this.baseURL}${endpoint}`;
-        console.log('🔗 Fetch URL:', url);
-        console.log('📤 Request options:', { method: options.method, headers });
+        console.log('Fetch URL:', url);
+        console.log('Request options:', { method: options.method, headers });
         
         try {
             const response = await fetch(url, {
@@ -23,18 +23,18 @@ const AdminAPI = {
                 headers,
             });
             
-            console.log('📥 Response status:', response.status);
+            console.log('Response status:', response.status);
             const data = await response.json();
-            console.log('📦 Response data:', data);
+            console.log('Response data:', data);
             return data;
         } catch (error) {
-            console.error('❌ API Error:', error);
+            console.error('API Error:', error);
             return { success: false, message: 'Network error: ' + error.message };
         }
     },
     
     async login(email, password) {
-        console.log('🌐 AdminAPI.login called, baseURL:', this.baseURL);
+        console.log('AdminAPI.login called, baseURL:', this.baseURL);
         return this.request('/api/user/login', {
             method: 'POST',
             body: JSON.stringify({ email, password }),

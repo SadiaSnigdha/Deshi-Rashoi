@@ -149,7 +149,7 @@ const Pages = {
     appDownloadComponent() {
         return `
             <div class="app-download" id="app-download">
-                <p>For better Experience download<br>Tomato App</p>
+                <p>For better Experience download<br>Deshi Rashoi App</p>
                 <div class="app-download-platforms">
                     <img src="src/assets/frontend_assets/play_store.png" alt="Play Store">
                     <img src="src/assets/frontend_assets/app_store.png" alt="App Store">
@@ -274,7 +274,7 @@ const Pages = {
                                 <b>$${grandTotal}</b>
                             </div>
                         </div>
-                        <button type="submit" id="place-order-btn">PROCEED TO PAYMENT</button>
+                        <button type="submit" id="place-order-btn">PROCEED TO CHECKOUT</button>
                     </div>
                 </div>
             </form>

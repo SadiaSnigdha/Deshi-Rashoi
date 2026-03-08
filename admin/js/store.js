@@ -27,26 +27,26 @@ const AdminStore = {
     },
     
     async login(email, password) {
-        console.log('🔑 AdminStore.login called with email:', email);
+        console.log('AdminStore.login called with email:', email);
         const response = await AdminAPI.login(email, password);
-        console.log('📡 API Response:', response);
+        console.log('API Response:', response);
         
         if (response.success) {
-            console.log('✓ Login successful, role:', response.role);
+            console.log('Login successful, role:', response.role);
             if (response.role === 'admin') {
                 this.state.token = response.token;
                 this.state.admin = true;
                 localStorage.setItem('token', response.token);
                 localStorage.setItem('admin', 'true');
                 this.notify();
-                console.log('💾 Admin state saved');
+                console.log('Admin state saved');
                 return { success: true };
             } else {
-                console.log('❌ User is not admin, role:', response.role);
+                console.log('User is not admin, role:', response.role);
                 return { success: false, message: 'You are not an admin' };
             }
         } else {
-            console.log('❌ Login failed:', response.message);
+            console.log('Login failed:', response.message);
             return { success: false, message: response.message };
         }
     },
