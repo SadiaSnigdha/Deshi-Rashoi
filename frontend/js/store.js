@@ -48,7 +48,7 @@ const Store = {
             this.state.cartItems[itemId]++;
         }
         
-        // Save to localStorage
+        
         localStorage.setItem('cartItems', JSON.stringify(this.state.cartItems));
         
         if (this.state.token) {
@@ -160,13 +160,13 @@ const Store = {
         return response;
     },
     
-    // Verify payment
+    
     async verifyOrder(orderId, success) {
         const response = await API.verifyOrder(orderId, success);
         return response;
     },
     
-    // Get user orders
+    
     async getUserOrders() {
         const response = await API.getUserOrders();
         if (response.success) {
