@@ -1,6 +1,6 @@
 import User from "../models/userModel.js";
 
-// add items to user cart
+
 const addToCart = async (req, res) => {
   try {
     let userData = await User.findByPk(req.body.userId);
