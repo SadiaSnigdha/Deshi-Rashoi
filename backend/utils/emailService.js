@@ -1,6 +1,5 @@
 import nodemailer from 'nodemailer';
 
-// Configure email transporter (using Gmail or your email service)
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -9,7 +8,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// Test email configuration on startup
+// Test email service
 transporter.verify((error, success) => {
   if (error) {
     console.log('Email Service Error:', error.message);
@@ -18,7 +17,7 @@ transporter.verify((error, success) => {
   }
 });
 
-// Send order confirmation email
+// Send order information
 export const sendOrderConfirmationEmail = async (email, orderId, items, amount, address) => {
   try {
     console.log('Sending email to:', email);
@@ -76,12 +75,11 @@ export const sendOrderConfirmationEmail = async (email, orderId, items, amount, 
     return { success: true, message: 'Confirmation email sent' };
   } catch (error) {
     console.log('Email send error:', error.message);
-    // Don't throw error - email is optional, order should still be processed
     return { success: false, message: 'Failed to send email' };
   }
 };
 
-// Send delivery confirmation email
+// Send delivery confirmation email, eta kaj kore na 
 export const sendDeliveryConfirmationEmail = async (email, orderId, items, amount, address) => {
   try {
     console.log('Sending delivery confirmation email to:', email);
@@ -142,7 +140,7 @@ export const sendDeliveryConfirmationEmail = async (email, orderId, items, amoun
     return { success: true, message: 'Delivery confirmation email sent' };
   } catch (error) {
     console.log('Email send error:', error.message);
-    // Don't throw error - email is optional, order should still be processed
+    // if mail fails to reach, the order will still be marked , kaj kore na 
     return { success: false, message: 'Failed to send delivery confirmation email' };
   }
 };
