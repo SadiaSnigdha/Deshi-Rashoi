@@ -13,10 +13,7 @@ The application is designed to provide a seamless food ordering experience with 
 ### 🛠️ Technology Stack
 
 **Frontend & Admin:**
-- Vite (Build tool)
-- Vanilla JavaScript (ES6+)
 - HTML5 & CSS3
-- Axios (HTTP client)
 - React Router DOM (Client-side routing)
 
 **Backend:**
@@ -28,7 +25,7 @@ The application is designed to provide a seamless food ordering experience with 
 - Bcrypt (Password hashing)
 - Multer (File uploads)
 - Nodemailer (Email service)
-- Stripe (Payment integration)
+
 
 ---
 
