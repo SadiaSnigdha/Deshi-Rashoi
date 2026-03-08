@@ -87,7 +87,6 @@ const Pages = {
         const selectedCategory = window.selectedCategory || 'All';
         const searchQuery = window.searchQuery || '';
         
-        // Filter by category and search query
         let filteredItems = foodItems.filter(item => {
             const matchCategory = selectedCategory === 'All' || selectedCategory === item.category;
             const matchSearch = !searchQuery || 
@@ -145,7 +144,6 @@ const Pages = {
             </div>
         `;
     },
-    
     appDownloadComponent() {
         return `
             <div class="app-download" id="app-download">

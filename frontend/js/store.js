@@ -165,13 +165,14 @@ const Store = {
         const response = await API.verifyOrder(orderId, success);
         return response;
     },
-    
-    
-    async getUserOrders() {
+      async getUserOrders() {
         const response = await API.getUserOrders();
         if (response.success) {
             return response.data;
         }
         return [];
     },
+    
+    
+  
 };
