@@ -16,7 +16,7 @@ function showToast(message, type = 'info') {
         toast.classList.add('show');
     }, 10);
     
-    // Remove after 3 seconds
+    
     setTimeout(() => {
         toast.classList.remove('show');
         setTimeout(() => {

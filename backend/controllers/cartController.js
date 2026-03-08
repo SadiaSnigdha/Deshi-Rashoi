@@ -21,7 +21,7 @@ const addToCart = async (req, res) => {
   }
 };
 
-// remove from cart
+
 const removeFromCart = async (req, res) => {
   try {
     let userData = await User.findByPk(req.body.userId);
@@ -42,7 +42,6 @@ const removeFromCart = async (req, res) => {
   }
 };
 
-// fetch user cart data
 const getCart = async (req, res) => {
   try {
     let userData = await User.findByPk(req.body.userId);

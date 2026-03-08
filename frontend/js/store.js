@@ -7,7 +7,7 @@ const Store = {
         user: null,
     },
     
-    // Subscribers for state changes
+    
     subscribers: [],
     
     // Subscribe to state changes
