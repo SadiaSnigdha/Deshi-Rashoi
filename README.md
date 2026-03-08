@@ -41,7 +41,7 @@ The application is designed to provide a seamless food ordering experience with 
 7. **User Profile**: Manage personal information and delivery addresses
 
 ### Admin Features (Admin Panel)
-1. **Dashboard**: Overview of orders, revenue, and statistics
+1. **Dashboard**: Overview of orders, revenue
 2. **Food Management**: 
    - Add new food items with images, descriptions, and pricing
    - Edit existing food items
@@ -49,7 +49,6 @@ The application is designed to provide a seamless food ordering experience with 
 3. **Order Management**:
    - View all incoming orders
    - Update order status (Processing, Out for delivery, Delivered)
-   - Track delivery progress
 4. **Category Management**: Organize food items by categories
 
 ### Backend Features (API)
@@ -58,8 +57,7 @@ The application is designed to provide a seamless food ordering experience with 
 3. **Database Management**: SQLite database with Sequelize ORM
 4. **File Upload**: Image upload and storage for food items
 5. **Email Notifications**: Order confirmations and updates
-6. **Payment Processing**: Stripe integration for secure payments
-7. **CORS Enabled**: Cross-origin resource sharing for frontend integration
+6. **CORS Enabled**: Cross-origin resource sharing for frontend integration
 
 ---
 
